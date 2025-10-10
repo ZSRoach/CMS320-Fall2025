@@ -1,8 +1,12 @@
 # CMS320-Fall2025
 [Team Name Placeholder]
+
 Team Members:
+
 Zachary Roach - Sound Designer, Programmer, Director
+
 Vishnu Chitadi - 
+
 Jaice Arsenault -
 
 [Team Name] presents: 
