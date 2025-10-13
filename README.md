@@ -3,7 +3,7 @@
 
 Zachary Roach - Sound Designer, Programmer, Director
 
-Vishnu Chitadi - 
+Vishnu Chitadi - Programmer, 
 
 Jaice Arsenault -
 
