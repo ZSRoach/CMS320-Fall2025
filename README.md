@@ -18,3 +18,5 @@ JumPin builds on the traditional Foddian style by emphasizing the spherical form
 
 
 Slides: https://docs.google.com/presentation/d/1MPlTwaqkOVmuH9JCEoUuqR4oTaiE8EitcqR47E-ESJs/edit?usp=sharing
+
+Game Plan: https://docs.google.com/document/d/14fj9jg5e1lohpUsZfUPIbcrVneKf-MLShccdmC3C6Nc/edit?usp=sharing
