@@ -152,7 +152,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   body: {fileID: 0}
-  isGrounded: 0
+  collider: {fileID: 0}
+  ground:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!50 &228061826
 Rigidbody2D:
   serializedVersion: 5

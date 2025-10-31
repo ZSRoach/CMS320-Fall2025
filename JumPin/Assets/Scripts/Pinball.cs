@@ -5,13 +5,17 @@ public class Pinball : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public Rigidbody2D body;
-    public bool isGrounded = true;
+    public CircleCollider2D collider;
+    public LayerMask ground;
 
-  
+    public bool isGrounded(){
+        return Physics2D.Raycast(body.position, Vector2.down, collider.bounds.extents.y+.1f, ground);
+    }
 
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        collider = GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
@@ -26,7 +30,7 @@ public class Pinball : MonoBehaviour
             body.AddForceX(2);
         }
 
-        if (isGrounded&&(Input.GetKey(KeyCode.W))) {
+        if ((Input.GetKey(KeyCode.W))&&isGrounded()) {
             body.AddForceY(10);
         }
     }
