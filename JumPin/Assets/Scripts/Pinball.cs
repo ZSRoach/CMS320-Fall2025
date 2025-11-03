@@ -45,10 +45,10 @@ public class Pinball : MonoBehaviour
     void FixedUpdate()
     {
         if (leftPressed)
-            body.AddForceX(-maxRollSpeed - body.linearVelocity.x);
+            body.linearVelocity = new Vector2(-maxRollSpeed, body.linearVelocity.y);
 
         if (rightPressed)
-            body.AddForceX(maxRollSpeed - body.linearVelocity.x);
+            body.linearVelocity = new Vector2(maxRollSpeed, body.linearVelocity.y);
 
         // If ball is touching ground...
         if (Physics2D.Raycast(transform.position, Vector2.down,

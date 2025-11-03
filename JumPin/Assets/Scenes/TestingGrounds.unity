@@ -154,7 +154,7 @@ MonoBehaviour:
   maxRayGrndCheckDist: 0.35
   maxRollSpeed: 5
   jumpSpeed: 5
-  noInputFriction: 0.088
+  noInputFriction: 0.2
 --- !u!50 &228061826
 Rigidbody2D:
   serializedVersion: 5
