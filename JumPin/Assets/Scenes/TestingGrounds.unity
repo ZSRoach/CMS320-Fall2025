@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   maxRayGrndCheckDist: 0.35
+  maxRaySlopeCheckDist: 0.45
   maxRollSpeed: 5
   jumpSpeed: 5
   noInputFriction: 0.2
@@ -302,7 +303,7 @@ GameObject:
   - component: {fileID: 482945787}
   - component: {fileID: 482945786}
   - component: {fileID: 482945785}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Triangle
   m_TagString: ground
   m_Icon: {fileID: 0}

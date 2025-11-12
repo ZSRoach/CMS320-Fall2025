@@ -3,11 +3,12 @@ using UnityEngine;
 public class Pinball : MonoBehaviour
 {
     Rigidbody2D body;
-    LayerMask ground;
+    LayerMask ground, slope;
     bool leftPressed, rightPressed, jumpPressed;
 
     // Maximum distance of raycast for checking if the ball is grounded
     public float maxRayGrndCheckDist;
+    public float maxRaySlopeCheckDist;
     public float maxRollSpeed; // Maximum speed the ball will roll at
     public float jumpSpeed; // Upwards speed of ball when jump is pressed
 
@@ -20,6 +21,7 @@ public class Pinball : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         ground = LayerMask.GetMask("Ground");
+        slope = LayerMask.GetMask("Slope");
     }
 
     // Update is called once per frame
@@ -59,8 +61,16 @@ public class Pinball : MonoBehaviour
                                ForceMode2D.Impulse);
 
             // Handle jump
-            if (jumpPressed)
+            if (jumpPressed) {
                 body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
+                jumpPressed = false;
+            }
         }
+
+        // Handle jump on slope
+        // Second raycast to check for slope
+        if (jumpPressed && Physics2D.Raycast(transform.position, Vector2.down,
+            maxRaySlopeCheckDist, slope))
+            body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
     }
 }
