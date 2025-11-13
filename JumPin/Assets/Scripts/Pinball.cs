@@ -5,14 +5,15 @@ public class Pinball : MonoBehaviour
     Rigidbody2D body;
     LayerMask ground, slope;
     bool leftPressed, rightPressed, jumpPressed, grounded;
-    AudioSource jumpSound;
-    AudioSource fallSound;
+    AudioSource audioSource;
+    public AudioClip jumpSound, fallSound;
 
     // Maximum distance of raycast for checking if the ball is grounded
     [SerializeField]
     public float maxRayGrndCheckDist;
     [SerializeField]
     public float maxRaySlopeCheckDist;
+    
     [SerializeField]
     public float maxRollSpeed; // Maximum speed the ball will roll at
     [SerializeField]
@@ -26,10 +27,18 @@ public class Pinball : MonoBehaviour
     [SerializeField]
     [Range(0,1)]
     public float midairMovementPercentage;
-
     [SerializeField]
     [Range(0, 1)]
     public float groundedMovementPercentage;
+
+    void roll(float direction, float percent)
+    {
+        float maxRollVel = maxRollSpeed * direction;
+        float newVel = body.linearVelocity.x + percent * maxRollVel;
+        if (Mathf.Abs(newVel) > maxRollSpeed)
+            newVel = maxRollVel;
+        body.linearVelocity = new Vector2(newVel, body.linearVelocity.y);
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,8 +46,7 @@ public class Pinball : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         ground = LayerMask.GetMask("Ground");
         slope = LayerMask.GetMask("Slope");
-        jumpSound = GetComponents<AudioSource>()[0];
-        fallSound = GetComponents<AudioSource>()[1];
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -71,27 +79,13 @@ public class Pinball : MonoBehaviour
         {
             if (grounded == false)
             {
-                fallSound.Play();
+                audioSource.PlayOneShot(fallSound);
                 grounded = true;
             }
             if (leftPressed)
-            {
-                float newVel = body.linearVelocity.x + (float)(groundedMovementPercentage * (-maxRollSpeed));
-                if (Mathf.Abs(newVel) > maxRollSpeed)
-                {
-                    newVel = -maxRollSpeed;
-                }
-                body.linearVelocity = new Vector2(newVel, body.linearVelocity.y);
-            }
+                roll(-1f, groundedMovementPercentage);
             if (rightPressed)
-            {
-                float newVel = body.linearVelocity.x + (float)(groundedMovementPercentage * (maxRollSpeed));
-                if (Mathf.Abs(newVel) > maxRollSpeed)
-                {
-                    newVel = maxRollSpeed;
-                }
-                body.linearVelocity = new Vector2(newVel, body.linearVelocity.y);
-            }
+                roll(1f, groundedMovementPercentage);
             // Add friction to ball if no left or right input detected
             if (!leftPressed && !rightPressed)
                 body.AddForceX(-body.linearVelocity.x * noInputFriction,
@@ -101,7 +95,7 @@ public class Pinball : MonoBehaviour
             if (jumpPressed)
             {
                 body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
-                jumpSound.Play();
+                audioSource.PlayOneShot(jumpSound);
                 jumpPressed = false;
             }
         }
@@ -111,32 +105,18 @@ public class Pinball : MonoBehaviour
         {
             if (grounded == false)
             {
-                fallSound.Play();
+                audioSource.PlayOneShot(fallSound);
                 grounded = true;
             }
             if (jumpPressed)
             {
                 body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
-                jumpSound.Play();
+                audioSource.PlayOneShot(jumpSound);
             }
             if (leftPressed)
-            {
-                float newVel = body.linearVelocity.x + (float)(midairMovementPercentage * (-maxRollSpeed));
-                if (Mathf.Abs(newVel) > maxRollSpeed)
-                {
-                    newVel = -maxRollSpeed;
-                }
-                body.linearVelocity = new Vector2(newVel, body.linearVelocity.y);
-            }
+                roll(-1f, midairMovementPercentage);
             if (rightPressed)
-            {
-                float newVel = body.linearVelocity.x + (float)(midairMovementPercentage * (maxRollSpeed));
-                if (Mathf.Abs(newVel) > maxRollSpeed)
-                {
-                    newVel = maxRollSpeed;
-                }
-                body.linearVelocity = new Vector2(newVel, body.linearVelocity.y);
-            }
+                roll(1f, midairMovementPercentage);
         }
         //not grounded on either flat or sloped surface
         else
@@ -144,24 +124,9 @@ public class Pinball : MonoBehaviour
             grounded = false;
             //handles movement for in-air (slower directional change)
             if (leftPressed)
-            {
-                float newVel = body.linearVelocity.x + (float)(midairMovementPercentage * (-maxRollSpeed));
-                if (Mathf.Abs(newVel) > maxRollSpeed)
-                {
-                    newVel = -maxRollSpeed;
-                }
-                body.linearVelocity = new Vector2(newVel, body.linearVelocity.y);
-            }
+                roll(-1f, midairMovementPercentage);
             if (rightPressed)
-            {
-                float newVel = body.linearVelocity.x + (float)(midairMovementPercentage * (maxRollSpeed));
-                if (Mathf.Abs(newVel) > maxRollSpeed)
-                {
-                    newVel = maxRollSpeed;
-                }
-                body.linearVelocity = new Vector2(newVel, body.linearVelocity.y);
-            }
-
+                roll(1f, midairMovementPercentage);
         }
     }
 }
