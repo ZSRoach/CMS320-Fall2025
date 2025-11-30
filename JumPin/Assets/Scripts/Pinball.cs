@@ -7,6 +7,16 @@ public class Pinball : MonoBehaviour
     bool leftPressed, rightPressed, jumpPressed, grounded;
     AudioSource audioSource;
     public AudioClip jumpSound, fallSound;
+    int airTime;
+    public bool stunned;
+    int timeStunned;
+
+    [SerializeField]
+    public int jumpAirTimeSetback;
+    [SerializeField]
+    public int airTimeMax;
+    [SerializeField]
+    public int maxStunTime;
 
     // Maximum distance of raycast for checking if the ball is grounded
     [SerializeField]
@@ -47,25 +57,39 @@ public class Pinball : MonoBehaviour
         ground = LayerMask.GetMask("Ground");
         slope = LayerMask.GetMask("Slope");
         audioSource = GetComponent<AudioSource>();
+        stunned = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.A))
-            leftPressed = true;
-        else
-            leftPressed = false;
+        if (!stunned)
+        {
+            if (Input.GetKey(KeyCode.A))
+                leftPressed = true;
+            else
+                leftPressed = false;
 
-        if (Input.GetKey(KeyCode.D))
-            rightPressed = true;
-        else
-            rightPressed = false;
-        
-        if (Input.GetKey(KeyCode.W))
-            jumpPressed = true;
-        else
-            jumpPressed = false;
+            if (Input.GetKey(KeyCode.D))
+                rightPressed = true;
+            else
+                rightPressed = false;
+
+            if (Input.GetKey(KeyCode.W))
+                jumpPressed = true;
+            else
+                jumpPressed = false;
+        }
+        else {
+            timeStunned += 1;
+        }
+        if (timeStunned >= maxStunTime) {
+            stunned = false;
+            timeStunned = 0;
+        }
+        if (!grounded) {
+            airTime += 1;
+        }
     }
 
     // Put physics update stuff here
@@ -81,23 +105,38 @@ public class Pinball : MonoBehaviour
             {
                 audioSource.PlayOneShot(fallSound);
                 grounded = true;
+                //stunning condition
+                if (airTime >= airTimeMax)
+                {
+                    stunned = true;
+                    timeStunned = 0;
+                }
+                else {
+                    airTime = 0;
+                }
             }
-            if (leftPressed)
-                roll(-1f, groundedMovementPercentage);
-            if (rightPressed)
-                roll(1f, groundedMovementPercentage);
-            // Add friction to ball if no left or right input detected
-            if (!leftPressed && !rightPressed)
-                body.AddForceX(-body.linearVelocity.x * noInputFriction,
-                               ForceMode2D.Impulse);
+           
+            //only run when not stunned
+            if (!stunned) {
+                if (leftPressed)
+                    roll(-1f, groundedMovementPercentage);
+                if (rightPressed)
+                    roll(1f, groundedMovementPercentage);
+                // Add friction to ball if no left or right input detected
+                if (!leftPressed && !rightPressed)
+                    body.AddForceX(-body.linearVelocity.x * noInputFriction,
+                                   ForceMode2D.Impulse);
 
-            // Handle jump
-            if (jumpPressed)
-            {
-                body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
-                audioSource.PlayOneShot(jumpSound);
-                jumpPressed = false;
+                // Handle jump
+                if (jumpPressed)
+                {
+                    body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
+                    audioSource.PlayOneShot(jumpSound);
+                    jumpPressed = false;
+                    airTime = jumpAirTimeSetback;
+                }
             }
+            
         }
         // Handle jump on slope
         // Second raycast to check for slope
@@ -107,16 +146,31 @@ public class Pinball : MonoBehaviour
             {
                 audioSource.PlayOneShot(fallSound);
                 grounded = true;
+                //stunning condition
+                if (airTime >= airTimeMax)
+                {
+                    stunned = true;
+                    timeStunned = 0;
+                }
+                else {
+                    airTime = 0;
+                }
             }
-            if (jumpPressed)
-            {
-                body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
-                audioSource.PlayOneShot(jumpSound);
+            
+            //only run when not stunned
+            if (!stunned) {
+                if (jumpPressed)
+                {
+                    body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
+                    audioSource.PlayOneShot(jumpSound);
+                    airTime = jumpAirTimeSetback;
+                }
+                if (leftPressed)
+                    roll(-1f, midairMovementPercentage);
+                if (rightPressed)
+                    roll(1f, midairMovementPercentage);
             }
-            if (leftPressed)
-                roll(-1f, midairMovementPercentage);
-            if (rightPressed)
-                roll(1f, midairMovementPercentage);
+            
         }
         //not grounded on either flat or sloped surface
         else
