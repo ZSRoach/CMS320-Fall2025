@@ -7,15 +7,15 @@ public class Pinball : MonoBehaviour
     bool leftPressed, rightPressed, jumpPressed, grounded;
     AudioSource audioSource;
     public AudioClip jumpSound, fallSound;
-    int airTime;
+    float airTime;
     public bool stunned;
-    int timeStunned;
+    float timeStunned;
 
     [SerializeField]
     public int jumpAirTimeSetback;
     [SerializeField]
     public int airTimeMax;
-    [SerializeField]
+    [SerializeField]    
     public int maxStunTime;
 
     // Maximum distance of raycast for checking if the ball is grounded
@@ -81,14 +81,18 @@ public class Pinball : MonoBehaviour
                 jumpPressed = false;
         }
         else {
-            timeStunned += 1;
+            timeStunned += 200*Time.deltaTime;
         }
         if (timeStunned >= maxStunTime) {
             stunned = false;
             timeStunned = 0;
         }
-        if (!grounded) {
-            airTime += 1;
+        if (!grounded)
+        {
+            airTime += 200*Time.deltaTime;
+        }
+        else if (stunned) {
+            airTime = 0;
         }
     }
 
@@ -106,6 +110,7 @@ public class Pinball : MonoBehaviour
                 audioSource.PlayOneShot(fallSound);
                 grounded = true;
                 //stunning condition
+                Debug.Log($"airtime : {airTime} stunned {stunned}");
                 if (airTime >= airTimeMax)
                 {
                     stunned = true;
