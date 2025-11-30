@@ -151,11 +151,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d99696c9096ed024fa067774386b5d1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  jumpSound: {fileID: 0}
+  fallSound: {fileID: 0}
   maxRayGrndCheckDist: 0.35
   maxRaySlopeCheckDist: 0.45
   maxRollSpeed: 5
   jumpSpeed: 5
   noInputFriction: 0.2
+  midairMovementPercentage: 0
+  groundedMovementPercentage: 0
 --- !u!50 &228061826
 Rigidbody2D:
   serializedVersion: 5
@@ -385,7 +389,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: cc3e3f911bc701144a9ed86724d3bf2c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
