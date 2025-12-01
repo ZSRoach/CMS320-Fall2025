@@ -13,6 +13,7 @@ public class Flipper : MonoBehaviour
         hinge = GetComponent<HingeJoint2D>();
         motor.motorSpeed = 300;
         motor.maxMotorTorque = 200;
+        hinge.motor = motor;
         hinge.useMotor = false;
     }
 
