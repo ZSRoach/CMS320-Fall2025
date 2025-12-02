@@ -14,6 +14,9 @@ public class Pinball : MonoBehaviour
     public float maxSwimDelay;
 
     [SerializeField]
+    public OptionsMenu settings;
+
+    [SerializeField]
     public float waterGravityScale;
     [SerializeField]
     public int jumpAirTimeSetback;
@@ -132,7 +135,7 @@ public class Pinball : MonoBehaviour
         {
             if (grounded == false)
             {
-                audioSource.PlayOneShot(fallSound);
+                if (settings.soundsOn) { audioSource.PlayOneShot(fallSound); }
                 grounded = true;
                 //stunning condition
                 if (airTime >= airTimeMax)
@@ -162,7 +165,7 @@ public class Pinball : MonoBehaviour
                 if (jumpPressed)
                 {
                     body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
-                    audioSource.PlayOneShot(jumpSound);
+                    if (settings.soundsOn) { audioSource.PlayOneShot(jumpSound); }
                     airTime = jumpAirTimeSetback;
                     jumpPressed = false;
                 }
@@ -175,7 +178,7 @@ public class Pinball : MonoBehaviour
         {
             if (grounded == false)
             {
-                audioSource.PlayOneShot(fallSound);
+                if (settings.soundsOn) { audioSource.PlayOneShot(fallSound); }
                 grounded = true;
                 //stunning condition
                 if (airTime >= airTimeMax)
@@ -195,7 +198,7 @@ public class Pinball : MonoBehaviour
                 if (jumpPressed)
                 {
                     body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
-                    audioSource.PlayOneShot(jumpSound);
+                    if (settings.soundsOn) { audioSource.PlayOneShot(jumpSound); }
                     airTime = jumpAirTimeSetback;
                 }
                 if (leftPressed)
@@ -220,7 +223,7 @@ public class Pinball : MonoBehaviour
             if (Input.GetKey(KeyCode.W)&&canSwim)
             {
                 body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed/2);
-                audioSource.PlayOneShot(jumpSound);
+                if (settings.soundsOn) { audioSource.PlayOneShot(jumpSound); }
                 canSwim = false;
                 swimDelay = 0;
             }
