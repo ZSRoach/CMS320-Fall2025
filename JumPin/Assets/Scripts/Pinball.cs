@@ -135,7 +135,7 @@ public class Pinball : MonoBehaviour
         {
             if (grounded == false)
             {
-                if (settings.soundsOn) { audioSource.PlayOneShot(fallSound); }
+                audioSource.PlayOneShot(fallSound);
                 grounded = true;
                 //stunning condition
                 if (airTime >= airTimeMax)
@@ -165,7 +165,7 @@ public class Pinball : MonoBehaviour
                 if (jumpPressed)
                 {
                     body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
-                    if (settings.soundsOn) { audioSource.PlayOneShot(jumpSound); }
+                    audioSource.PlayOneShot(jumpSound);
                     airTime = jumpAirTimeSetback;
                     jumpPressed = false;
                 }
@@ -178,7 +178,7 @@ public class Pinball : MonoBehaviour
         {
             if (grounded == false)
             {
-                if (settings.soundsOn) { audioSource.PlayOneShot(fallSound); }
+                audioSource.PlayOneShot(fallSound);
                 grounded = true;
                 //stunning condition
                 if (airTime >= airTimeMax)
@@ -198,7 +198,7 @@ public class Pinball : MonoBehaviour
                 if (jumpPressed)
                 {
                     body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
-                    if (settings.soundsOn) { audioSource.PlayOneShot(jumpSound); }
+                    audioSource.PlayOneShot(jumpSound);
                     airTime = jumpAirTimeSetback;
                 }
                 if (leftPressed)
@@ -223,7 +223,7 @@ public class Pinball : MonoBehaviour
             if (Input.GetKey(KeyCode.W)&&canSwim)
             {
                 body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed/2);
-                if (settings.soundsOn) { audioSource.PlayOneShot(jumpSound); }
+                audioSource.PlayOneShot(jumpSound);
                 canSwim = false;
                 swimDelay = 0;
             }

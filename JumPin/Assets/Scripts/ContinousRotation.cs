@@ -1,6 +1,6 @@
 using UnityEngine; // Gives access to Unity functions, MonoBehaviour, Transform, etc.
 
-public class SpriteRotator : MonoBehaviour // Allows this script to be attached to a GameObject
+public class ContinuousRotation : MonoBehaviour // Allows this script to be attached to a GameObject
 {
     public float minSpeed = -100f; // Minimum possible rotation speed (negative = clockwise)
     public float maxSpeed = 100f;  // Maximum possible rotation speed (positive = counterclockwise)

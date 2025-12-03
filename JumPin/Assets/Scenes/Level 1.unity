@@ -1896,6 +1896,10 @@ PrefabInstance:
       propertyPath: pinball
       value: 
       objectReference: {fileID: 2017032553}
+    - target: {fileID: 972800526071533156, guid: 9503d8092773e26489cc04f9348d9097, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5867656949899307820, guid: 9503d8092773e26489cc04f9348d9097, type: 3}
       propertyPath: m_Name
       value: stun_0 (1)

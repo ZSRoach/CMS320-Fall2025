@@ -11,7 +11,7 @@ public class AudioHandler : MonoBehaviour
 
     void Start()
     {
-        if (settings.musicOn) musicSource.PlayOneShot(intro);
-        if (settings.musicOn) musicSource.PlayScheduled(AudioSettings.dspTime + intro.length);
+        musicSource.PlayOneShot(intro);
+        musicSource.PlayScheduled(AudioSettings.dspTime + intro.length);
     }
 }
