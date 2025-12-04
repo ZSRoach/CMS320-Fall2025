@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class OptionsMenu
+public class OptionsMenu : MonoBehaviour
 {
-    public bool checkpointsOn = false;
-    public bool musicOn = true;
-    public bool soundsOn = true;
+    public static bool checkpointsOn = false;
+    public static bool musicOn = true;
+    public static bool soundsOn = true;
+
+
     public void showOptions() {
         SceneManager.LoadScene("Options");
     }
