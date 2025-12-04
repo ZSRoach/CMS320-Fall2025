@@ -13,8 +13,6 @@ public class Pinball : MonoBehaviour
     public float swimDelay;
     public float maxSwimDelay;
 
-    [SerializeField]
-    public OptionsMenu settings;
 
     [SerializeField]
     public float waterGravityScale;
@@ -83,7 +81,7 @@ public class Pinball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!stunned)
+        if (!stunned&&!Finale.finished)
         {
             if (Input.GetKey(KeyCode.A))
                 leftPressed = true;
@@ -158,11 +156,14 @@ public class Pinball : MonoBehaviour
 
         // If ball is touching ground...
         if (Physics2D.Raycast(transform.position, Vector2.down,
-            maxRayGrndCheckDist, ground))
+            maxRayGrndCheckDist, ground) && !Finale.finished)
         {
             if (grounded == false)
             {
-                audioSource.PlayOneShot(fallSound);
+                if (OptionsMenu.soundsOn)
+                {
+                    audioSource.PlayOneShot(fallSound);
+                }
                 grounded = true;
                 //stunning condition
                 if (airTime >= airTimeMax)
@@ -192,7 +193,10 @@ public class Pinball : MonoBehaviour
                 if (jumpPressed)
                 {
                     body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
-                    audioSource.PlayOneShot(jumpSound);
+                    if (OptionsMenu.soundsOn) {
+                        audioSource.PlayOneShot(jumpSound);
+                    }
+
                     airTime = jumpAirTimeSetback;
                     jumpPressed = false;
                 }
@@ -201,11 +205,14 @@ public class Pinball : MonoBehaviour
         }
         // Handle jump on slope
         // Second raycast to check for slope
-        else if (Physics2D.Raycast(transform.position, Vector2.down, maxRaySlopeCheckDist, slope))
+        else if (Physics2D.Raycast(transform.position, Vector2.down, maxRaySlopeCheckDist, slope) && !Finale.finished)
         {
             if (grounded == false)
             {
-                audioSource.PlayOneShot(fallSound);
+                if (OptionsMenu.soundsOn)
+                {
+                    audioSource.PlayOneShot(fallSound);
+                }
                 grounded = true;
                 //stunning condition
                 if (airTime >= airTimeMax)
@@ -225,7 +232,10 @@ public class Pinball : MonoBehaviour
                 if (jumpPressed)
                 {
                     body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed);
-                    audioSource.PlayOneShot(jumpSound);
+                    if (OptionsMenu.soundsOn)
+                    {
+                        audioSource.PlayOneShot(jumpSound);
+                    }
                     airTime = jumpAirTimeSetback;
                 }
                 if (leftPressed)
@@ -236,7 +246,7 @@ public class Pinball : MonoBehaviour
 
         }
         //water handling
-        else if (Physics2D.CircleCast(transform.position,.1f, Vector2.zero,1f, water))
+        else if (Physics2D.CircleCast(transform.position,.1f, Vector2.zero,1f, water) && !Finale.finished)
         {
             swimming = true;
             if (leftPressed)
@@ -250,13 +260,16 @@ public class Pinball : MonoBehaviour
             if (Input.GetKey(KeyCode.W)&&canSwim)
             {
                 body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed/2);
-                audioSource.PlayOneShot(jumpSound);
+                if (OptionsMenu.soundsOn)
+                {
+                    audioSource.PlayOneShot(jumpSound);
+                }
                 canSwim = false;
                 swimDelay = 0;
             }
         }
         //not grounded on either flat or sloped surface
-        else
+        else if (!Finale.finished)
         {
             grounded = false;
             //handles movement for in-air (slower directional change)
