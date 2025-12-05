@@ -166,6 +166,10 @@ public class Pinball : MonoBehaviour
                 }
                 grounded = true;
                 //stunning condition
+                if (stunned)
+                {
+                    timeStunned -= 200;
+                }
                 if (airTime >= airTimeMax)
                 {
                     stunned = true;
@@ -175,6 +179,7 @@ public class Pinball : MonoBehaviour
                 {
                     airTime = 0;
                 }
+                
             }
 
             //only run when not stunned
@@ -215,6 +220,10 @@ public class Pinball : MonoBehaviour
                 }
                 grounded = true;
                 //stunning condition
+                if (stunned)
+                {
+                    timeStunned -= 200;
+                }
                 if (airTime >= airTimeMax)
                 {
                     stunned = true;
@@ -224,6 +233,7 @@ public class Pinball : MonoBehaviour
                 {
                     airTime = 0;
                 }
+                
             }
 
             //only run when not stunned
