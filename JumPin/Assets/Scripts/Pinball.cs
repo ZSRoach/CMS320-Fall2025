@@ -104,7 +104,7 @@ public class Pinball : MonoBehaviour
                 jumpPressed = true;
             else
                 jumpPressed = false;
-            if (Input.GetKey(KeyCode.R)) {
+            if (Input.GetKey(KeyCode.R) && OptionsMenu.checkpointsOn) {
                 body.position = checkpoint;
             }
         }
@@ -132,7 +132,7 @@ public class Pinball : MonoBehaviour
         }
 
         // If pinball goes offscreen of current camera
-        if (!IsVisibleToCamera(cameras[currentCameraIndex])) {
+        if (!IsVisibleToCamera(cameras[currentCameraIndex])&&!Finale.finished) {
             // Disable the current camera
             cameras[currentCameraIndex].enabled = false;
 
@@ -160,7 +160,7 @@ public class Pinball : MonoBehaviour
         {
             swimDelay += 1;
         }
-        if (swimDelay >= maxSwimDelay) {
+        if (swimDelay >= maxSwimDelay &&!stunned) {
             canSwim = true;
         }
 
