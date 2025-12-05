@@ -3,7 +3,7 @@ using UnityEngine;
 public class Pinball : MonoBehaviour
 {
     Rigidbody2D body;
-    LayerMask ground, slope,water;
+    LayerMask ground, slope,water, checkpoints;
     bool leftPressed, rightPressed, jumpPressed, grounded, swimming, canSwim;
     AudioSource audioSource;
     public AudioClip jumpSound, fallSound;
@@ -12,6 +12,7 @@ public class Pinball : MonoBehaviour
     float timeStunned;
     public float swimDelay;
     public float maxSwimDelay;
+    public Vector2 checkpoint;
 
 
     [SerializeField]
@@ -22,6 +23,9 @@ public class Pinball : MonoBehaviour
     public int airTimeMax;
     [SerializeField]    
     public int maxStunTime;
+
+    public int maxRestun = 3;
+    public int restuns = 0;
 
     // Maximum distance of raycast for checking if the ball is grounded
     [SerializeField]
@@ -74,8 +78,11 @@ public class Pinball : MonoBehaviour
         ground = LayerMask.GetMask("Ground");
         slope = LayerMask.GetMask("Slope");
         water = LayerMask.GetMask("Water");
+        checkpoints = LayerMask.GetMask("Checkpoint");
         audioSource = GetComponent<AudioSource>();
         stunned = false;
+        checkpoint = body.position;
+        
     }
 
     // Update is called once per frame
@@ -97,6 +104,9 @@ public class Pinball : MonoBehaviour
                 jumpPressed = true;
             else
                 jumpPressed = false;
+            if (Input.GetKey(KeyCode.R)) {
+                body.position = checkpoint;
+            }
         }
         else {
             timeStunned += 200*Time.deltaTime;
@@ -154,6 +164,7 @@ public class Pinball : MonoBehaviour
             canSwim = true;
         }
 
+
         // If ball is touching ground...
         if (Physics2D.Raycast(transform.position, Vector2.down,
             maxRayGrndCheckDist, ground) && !Finale.finished)
@@ -168,11 +179,16 @@ public class Pinball : MonoBehaviour
                 //stunning condition
                 if (stunned)
                 {
-                    timeStunned -= 200;
+                    if (restuns <= maxRestun) {
+                        timeStunned -= 200;
+                        restuns += 1;
+                    }
+                    
                 }
                 if (airTime >= airTimeMax)
                 {
                     stunned = true;
+                    restuns = 0;
                     timeStunned = 0;
                 }
                 else
@@ -222,11 +238,16 @@ public class Pinball : MonoBehaviour
                 //stunning condition
                 if (stunned)
                 {
-                    timeStunned -= 200;
+                    if (restuns <= maxRestun)
+                    {
+                        timeStunned -= 200;
+                        restuns += 1;
+                    }
                 }
                 if (airTime >= airTimeMax)
                 {
                     stunned = true;
+                    restuns = 0;
                     timeStunned = 0;
                 }
                 else
@@ -288,5 +309,10 @@ public class Pinball : MonoBehaviour
             if (rightPressed)
                 roll(1f, midairMovementPercentage);
         }
+
+        if (Physics2D.CircleCast(transform.position, .1f, Vector2.zero, 1f, checkpoints)){
+            checkpoint = body.position;
+        }
     }
+    
 }
