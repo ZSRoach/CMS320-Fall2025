@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pinball : MonoBehaviour
 {
@@ -90,22 +91,26 @@ public class Pinball : MonoBehaviour
     {
         if (!stunned&&!Finale.finished)
         {
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.LeftArrow))
                 leftPressed = true;
             else
                 leftPressed = false;
 
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.D)||Input.GetKey(KeyCode.RightArrow))
                 rightPressed = true;
             else
                 rightPressed = false;
 
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.W)||Input.GetKey(KeyCode.Space)||Input.GetKey(KeyCode.UpArrow))
                 jumpPressed = true;
             else
                 jumpPressed = false;
             if (Input.GetKey(KeyCode.R) && OptionsMenu.checkpointsOn) {
                 body.position = checkpoint;
+            }
+            if(Input.GetKey(KeyCode.Escape)){
+                SceneManager.LoadScene("Start Screen");
+
             }
         }
         else {
