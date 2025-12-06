@@ -15308,11 +15308,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4360810670071407271, guid: d316c86b50a03884fab61a3349aae82b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.23
+      value: 8.01
       objectReference: {fileID: 0}
     - target: {fileID: 4360810670071407271, guid: d316c86b50a03884fab61a3349aae82b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 67.48
+      value: 67.5
       objectReference: {fileID: 0}
     - target: {fileID: 4360810670071407271, guid: d316c86b50a03884fab61a3349aae82b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16061,6 +16061,10 @@ PrefabInstance:
     - target: {fileID: 7762843450849044032, guid: aacc4c885b8d9fa4880bb7ebfa7db58d, type: 3}
       propertyPath: m_Name
       value: PinBall_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611120914532252009, guid: aacc4c885b8d9fa4880bb7ebfa7db58d, type: 3}
+      propertyPath: airTimeMax
+      value: 280
       objectReference: {fileID: 0}
     - target: {fileID: 8611120914532252009, guid: aacc4c885b8d9fa4880bb7ebfa7db58d, type: 3}
       propertyPath: maxSwimDelay
