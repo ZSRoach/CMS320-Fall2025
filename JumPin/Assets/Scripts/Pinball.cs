@@ -56,7 +56,6 @@ public class Pinball : MonoBehaviour
 
     public Camera[] cameras; // Array to hold the cameras
     private int currentCameraIndex = 0;
-
     void roll(float direction, float percent)
     {
         float maxRollVel = maxRollSpeed * direction;
@@ -89,6 +88,7 @@ public class Pinball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (!stunned&&!Finale.finished)
         {
             if (Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.LeftArrow))
@@ -136,25 +136,25 @@ public class Pinball : MonoBehaviour
             body.gravityScale = 1f;
         }
 
-        // If pinball goes offscreen of current camera
-        if (!IsVisibleToCamera(cameras[currentCameraIndex])&&!Finale.finished) {
-            // Disable the current camera
-            cameras[currentCameraIndex].enabled = false;
 
-            // Check which camera it's visible on
-            if (currentCameraIndex > 0) {
-                currentCameraIndex--;
-                cameras[currentCameraIndex].enabled = true;
-                if (!IsVisibleToCamera(cameras[currentCameraIndex])) {
+        //swap camera to player-visible
+        if (!IsVisibleToCamera(cameras[currentCameraIndex]) && !Finale.finished)
+        {
+
+            int index = 0;
+            foreach (Camera cam in cameras)
+            {
+                if (IsVisibleToCamera(cam))
+                {
                     cameras[currentCameraIndex].enabled = false;
-                    currentCameraIndex += 2;
-                    cameras[currentCameraIndex].enabled = true;
+                    cam.enabled = true;
+                    currentCameraIndex = index;
                 }
-            } else {
-                currentCameraIndex++;
-                cameras[currentCameraIndex].enabled = true;
+                index += 1;
             }
+
         }
+
     }
 
     // Put physics update stuff here
