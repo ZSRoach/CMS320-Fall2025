@@ -293,7 +293,7 @@ public class Pinball : MonoBehaviour
             if (!leftPressed && !rightPressed)
                 body.AddForceX(-body.linearVelocity.x * noInputFriction / 5,
                                ForceMode2D.Impulse);
-            if (Input.GetKey(KeyCode.W)&&canSwim)
+            if ((Input.GetKey(KeyCode.W)||Input.GetKey(KeyCode.UpArrow)||Input.GetKey(KeyCode.Space))&&canSwim)
             {
                 body.linearVelocity = new Vector2(body.linearVelocity.x, jumpSpeed/2);
                 if (OptionsMenu.soundsOn)
